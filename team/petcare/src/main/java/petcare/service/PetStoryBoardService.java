@@ -2,11 +2,13 @@ package petcare.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import petcare.model.BoardPetstory;
@@ -39,5 +41,25 @@ public class PetStoryBoardService {
 		return petStoryBoardRepository.findAll();
 	}
 	
+	@Transactional
+	public BoardPetstory findById(Long petstory_id) {
+		BoardPetstory bpsboard = petStoryBoardRepository.findById(petstory_id).get();
+		bpsboard.setHitcount(bpsboard.getHitcount()+1);
+		return bpsboard;
+		
+	}
+	
+	@Transactional
+	public void update(BoardPetstory bpsboard) {
+		BoardPetstory b = petStoryBoardRepository.findById(bpsboard.getPetstory_id()).get();
+		b.setContent(bpsboard.getContent());
+		b.setTitle(bpsboard.getTitle());
+		b.setRegdate(new Date());
+		
+	}
+	@Transactional
+	public void delete(Long petstory_id) {
+		petStoryBoardRepository.deleteById(petstory_id);
+	}
 
 }
