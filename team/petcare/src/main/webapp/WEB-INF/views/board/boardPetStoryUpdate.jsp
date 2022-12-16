@@ -19,6 +19,7 @@
 					<div class="card-body">
 						<p class="card-text">${bpsboard.username}님</p>
 					<textarea class="form-control" rows="5" id="content" name="content">${bpsboard.content }</textarea>
+					<div id="content_cnt">(0 /13)</div>
 					</div>
 					<!--card-body  -->
 				</div>
@@ -59,5 +60,18 @@ $("#btnModify").click(function(){
 	})//ajax
 	
 })//btnModify
+
+$(document).ready(function(){
+	$('#content').on('keyup', function(){
+		$('#content_cnt').html("("+$(this).val().length+"/ 13)");
+		
+		if($(this).val().length > 13){
+			$(this).val($(this).val().substring(0,13));
+			$('#test_cnt').html("(13 / 13)");
+		}
+	});
+	
+});
+
 
 </script>

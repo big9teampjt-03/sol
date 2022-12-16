@@ -18,12 +18,12 @@
 					<img class="card-img-top" style="width: 100%; height: 250px"
 						src="/resources/img/${bpsboard.petstoryimage }" alt="Card image" >
 					<div class="card-body">
-						<p class="card-text">${bpsboard.username }</p>
+						<p class="card-text">${bpsboard.username }님</p>
 						<p class="card-text">${bpsboard.content }</p>
-						<img src="https://cdn-icons-png.flaticon.com/512/105/105220.png" width="20" height="20">() 
+						<img src="https://cdn-icons-png.flaticon.com/512/105/105220.png" id="btnLikes" height ="20" width="20" />${bpsboard.likes}
 						<img src="https://cdn-icons-png.flaticon.com/512/159/159078.png"width="20" height="20"> ${bpsboard.hitcount} 
 						<a href="/board/view/${bpsboard.petstory_id}" target="_blank">
-						<img src="https://cdn-icons-png.flaticon.com/512/5338/5338282.png" width="20" height="20"> </a>() 
+						<img src="https://cdn-icons-png.flaticon.com/512/5338/5338282.png" width="20" height="20"> </a>${bpsboard.replycnt} 
 					</div>
 					<!--card-body  -->
 				</div>
@@ -34,7 +34,4 @@
 		</c:forEach>
 	</div>
 	<!-- row -->
-
 </div>
-
-

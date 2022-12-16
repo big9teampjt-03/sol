@@ -20,10 +20,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-@Entity
+@Entity(name = "comment_pet_story")
 public class CommentPetStory {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long competstory_id;
+	private Long competstory_id; //cnum
 	private String username;
 	private String content;
 	@CreationTimestamp
@@ -31,14 +31,13 @@ public class CommentPetStory {
 	@Column(name="regdate")
 	@JsonFormat(pattern="yyyy-MM-dd", timezone="Asia/Seoul")
 	private Date regdate;
-	private int grp;
-	private int grps;
-	private int grpl;
-	
+
+	//bnum
 	@ManyToOne
 	@JoinColumn(name="bpetstorynum")
 	private BoardPetstory bPetstoryl;
 	
+	//userid
 	@ManyToOne
 	@JoinColumn(name="member_id")
 	private Member member;

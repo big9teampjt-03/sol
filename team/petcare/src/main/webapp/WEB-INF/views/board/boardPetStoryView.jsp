@@ -4,6 +4,7 @@
 
 <center>
 <div class="container">
+<input type="hidden" id="petstory_id" value="${bpsboard.petstory_id} " />
 	<br/>
 	<h3>${bpsboard.username}님의글</h3>
 	<hr size="5" noshade>
@@ -18,13 +19,10 @@
 				<div class="card-body">
 					<p class="card-text">${bpsboard.username}님</p>
 					<p class="card-text">${bpsboard.content }</p>
-					<img src="https://cdn-icons-png.flaticon.com/512/105/105220.png"
-						width="20" height="20">() <img
-						src="https://cdn-icons-png.flaticon.com/512/159/159078.png"
-						width="20" height="20"> ${bpsboard.hitcount}
-						 <img
-						src="https://cdn-icons-png.flaticon.com/512/5338/5338282.png"
-						width="20" height="20">()
+					<button type="button" style ="border:0"> <img src="https://cdn-icons-png.flaticon.com/512/105/105220.png" id="btnLikes" height ="20" width="20" /></button>
+					<span id="likes">${bpsboard.likes}</span>
+					 <img src="https://cdn-icons-png.flaticon.com/512/159/159078.png" width="20" height="20"> ${bpsboard.hitcount}
+						 <img src="https://cdn-icons-png.flaticon.com/512/5338/5338282.png" width="20" height="20">${bpsboard.replycnt}
 				</div>
 				<!--card-body  -->
 			</div>
@@ -42,20 +40,20 @@
 	<div align="center">
 		<textarea rows="3" cols="50" id="msg"></textarea>
 	</div>
-	
 	<button type=button class="btn btn-secondary btn-sm" id="btnComment">댓글쓰기</button>
 	<hr />
-	<div id="replyResult"></div>
+	<div id="replyResult">aa</div>
 </div>
 </center>
 
 <script>
-var init = function(){
+ var init = function(){
 	$.ajax({
 		type:"get",
-		url:"/reply/list/"+$("#num").val()
+		url:"/reply/list/"+$("#petstory_id").val()
 	})
 	.done(function(resp){
+		alert(resp)
 		var str ="<table class = 'table table-hover'>"
 		$.each(resp, function(key, val){
 			str+="<tr>"
@@ -68,6 +66,7 @@ var init = function(){
 			str+="</tr>"
 		})
 		str+="</table>"
+		alert(str)
 		$("#replyResult").html(str)
 	})//done
 }//init
@@ -77,20 +76,23 @@ $("#btnComment").click(function(){
 		alert("댓글을 입력하세요")
 		return;
 	}
-	//var data={
-			//"bnum": $("#num").val(),
-			//"content":$("#msg").val()
-	//}
-	//$.ajax({
-		//type: "POST",
-		//url:"/reply/insert/" +$("#num").val(),
-		//contentType:"application/json;charset=utf-8",
-		//data:JSON.stringify(data)
-	//})
-	//.done(function(resp,status){
-		//alert("댓글 추가 성공")
-		//init();
-	//})
+	var data={
+			"petstory_id": $("#petstory_id").val(),
+			"content":$("#msg").val()
+	}
+	$.ajax({
+		type: "POST",
+		url:"/reply/insert/" +$("#petstory_id").val(),
+		contentType:"application/json;charset=utf-8",
+		data:JSON.stringify(data)
+	})
+	.done(function(resp,status){
+		alert("댓글 추가 성공")
+		init();
+	})
+	.fail(function(){
+		alert("댓글추가실패")
+		})
 
 })
 
@@ -118,18 +120,28 @@ $("#btnDelete").click(function(){
 	})//ajax
 }) //btnDelete
 
-
-
-
-
-
-
-
-
-
-
-
-
+$("#btnLikes").click(function(){
+	//alert($("#likes").text())
+	data ={
+			"petstory_id":$("#petstory_id").val(),
+			"likes":$("#likes").text()
+	}
+	$.ajax({
+		type:"put",
+		url:"/board/updateLikes",
+		contentType:"application/json;charset=utf-8",
+		data:JSON.stringify(data),
+		success:function(resp){
+			//alert("좋아요 성공")
+			//location.href="/board/view/${bpsboard.petstory_id}"
+			$("#likes").text(resp)
+		},
+		error:function(e){
+			alert("종아요 실패" + e)
+		}
+	})
+	
+})
 
 init();
 

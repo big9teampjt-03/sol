@@ -55,10 +55,20 @@ public class PetStoryBoardController {
 		return "/board/boardPetStoryUpdate";
 	}
 	
+	@PutMapping("updateLikes")
+	@ResponseBody
+	public long updateLikes(@RequestBody BoardPetstory boardPetStory) {
+		//System.out.println("likes :"+boardPetStory.getLikes());
+		
+		return petStoryBoardService.updateLikes(boardPetStory);
+	}
+	
+	
 	@PutMapping("update")
 	@ResponseBody
 	public String update(@RequestBody BoardPetstory boardPetStory) {
 		petStoryBoardService.update(boardPetStory);
+		//petStoryBoardService.updateLikes(boardPetStory);
 		return "success";
 	}
 	

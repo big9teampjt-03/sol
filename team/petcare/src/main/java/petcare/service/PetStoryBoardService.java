@@ -41,25 +41,38 @@ public class PetStoryBoardService {
 		return petStoryBoardRepository.findAll();
 	}
 	
+	//상세보기
 	@Transactional
 	public BoardPetstory findById(Long petstory_id) {
 		BoardPetstory bpsboard = petStoryBoardRepository.findById(petstory_id).get();
 		bpsboard.setHitcount(bpsboard.getHitcount()+1);
+		//bpsboard.setLikes(bpsboard.getLikes()+1);
 		return bpsboard;
 		
 	}
-	
+	//수정하기
+	//더티체킹
 	@Transactional
 	public void update(BoardPetstory bpsboard) {
 		BoardPetstory b = petStoryBoardRepository.findById(bpsboard.getPetstory_id()).get();
 		b.setContent(bpsboard.getContent());
 		b.setTitle(bpsboard.getTitle());
-		b.setRegdate(new Date());
-		
+		b.setRegdate(new Date());		
 	}
+	
+	
 	@Transactional
 	public void delete(Long petstory_id) {
 		petStoryBoardRepository.deleteById(petstory_id);
 	}
+	
+	//좋아요 숫자 늘리기 
+	@Transactional
+	public long updateLikes(BoardPetstory bpsboard) {
+		BoardPetstory b = petStoryBoardRepository.findById(bpsboard.getPetstory_id()).get();
+		b.setLikes(bpsboard.getLikes() +1);
+		return b.getLikes();
+	}
+	
 
 }

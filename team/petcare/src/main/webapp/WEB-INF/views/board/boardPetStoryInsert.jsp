@@ -26,8 +26,24 @@
 		<div class="form-group">
 			<label for="content">내용:</label>
 			<textarea class="form-control" rows="5" id="content" name="content"></textarea>
+			<div id="content_cnt">(0 /13)</div>
 		</div>
 		<button type="submit" class="btn btn-primary btn-sm">글쓰기</button>
 	</form>
 
 </div>
+
+<script>
+$(document).ready(function(){
+	$('#content').on('keyup', function(){
+		$('#content_cnt').html("("+$(this).val().length+"/ 13)");
+		
+		if($(this).val().length > 13){
+			$(this).val($(this).val().substring(0,13));
+			$('#test_cnt').html("(13 / 13)");
+		}
+	});
+	
+});
+
+</script>
